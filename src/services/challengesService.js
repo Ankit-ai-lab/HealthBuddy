@@ -11,8 +11,9 @@ const defaultChallenges = {
     reward: "🏅 50-Mile Finisher Badge",
     exerciseType: "running",
     imageUrl:
-      "https://images.unsplash.com/photo-1605301627799-9c9eb5f75574?auto=format&fit=crop&w=800&q=80",
+      "https://leave-the-road-and.run/content/images/2024/10/54046369607_0fe345ecae_k-1-1.jpg",
   },
+
   pushup_30_day: {
     title: "30-Day Push-Up Challenge",
     description: "Do push-ups daily for 30 days",
@@ -22,8 +23,9 @@ const defaultChallenges = {
     reward: "💪 Push-Up Pro Badge",
     exerciseType: "bodyweight",
     imageUrl:
-      "https://images.unsplash.com/photo-1605296867304-46d5465a13f1?auto=format&fit=crop&w=800&q=80",
+      "https://phantom-marca.unidadeditorial.es/1b6dcb5cc4da136c098ae39545711815/crop/0x50/1199x723/f/jpg/assets/multimedia/imagenes/2022/02/22/16455364150761.jpg",
   },
+
   morning_yoga: {
     title: "Morning Yoga Routine",
     description: "Do a 15-min morning yoga routine for 15 days",
@@ -33,8 +35,9 @@ const defaultChallenges = {
     reward: "🧘 Yoga Starter Badge",
     exerciseType: "yoga",
     imageUrl:
-      "https://images.unsplash.com/photo-1540206395-68808572332f?auto=format&fit=crop&w=800&q=80",
+      "https://www.yogabasics.com/yogabasics2017/wp-content/uploads/2021/07/Morning-Yoga-Tips.jpeg",
   },
+
   climb_100_floors: {
     title: "Climb 100 Floors",
     description: "Use stairs or stair machine to climb 100 floors",
@@ -44,8 +47,9 @@ const defaultChallenges = {
     reward: "🏆 Stair Master Badge",
     exerciseType: "stair_climbing",
     imageUrl:
-      "https://images.unsplash.com/photo-1571019613578-2b78e9126f6e?auto=format&fit=crop&w=800&q=80",
+      "https://goqii.com/blog/wp-content/uploads/shutterstock_644579047-1024x682.jpg",
   },
+
   cycle_100_km: {
     title: "Cycle 100 KM in 2 Weeks",
     description: "Ride a total of 100 kilometers in 14 days",
@@ -55,8 +59,9 @@ const defaultChallenges = {
     reward: "🚴‍♂️ Cycling Champ Badge",
     exerciseType: "cycling",
     imageUrl:
-      "https://images.unsplash.com/photo-1518655048521-f130df041f66?auto=format&fit=crop&w=800&q=80",
+      "https://hips.hearstapps.com/hmg-prod/images/benefits-of-cycling-669908a7b9d15.jpg?crop=0.8888888888888888xw:1xh;center,top&resize=1200:*",
   },
+
   squat_500: {
     title: "500 Squats in a Week",
     description: "Complete 500 squats in 7 days",
@@ -66,8 +71,9 @@ const defaultChallenges = {
     reward: "🏋️ Squat Beast Badge",
     exerciseType: "bodyweight",
     imageUrl:
-      "https://images.unsplash.com/photo-1605296867422-28b4a41c7008?auto=format&fit=crop&w=800&q=80",
+      "https://images.ctfassets.net/0k812o62ndtw/6U0rOZqK0M0FXJVYTtdseB/faf1091fc76df276311dd98e2efd9661/Untitled_design___2023_03_23T132756.647_en05842add50d05d897d496e1090f21ee6.jpg",
   },
+
   plank_master: {
     title: "Plank Master Challenge",
     description: "Hold a plank for 2 minutes daily for 10 days",
@@ -77,8 +83,9 @@ const defaultChallenges = {
     reward: "🧱 Core Crusher Badge",
     exerciseType: "core",
     imageUrl:
-      "https://images.unsplash.com/photo-1612287230202-b80f8c3d1bba?auto=format&fit=crop&w=800&q=80",
+      "https://30dayfitness.app/static/a2902a44283070e930abe70bb77cc4d6/a1eb1/planks-for-beginners.jpg",
   },
+
   evening_walks: {
     title: "Evening Walk Challenge",
     description: "Walk at least 2 km every evening for 20 days",
@@ -88,7 +95,7 @@ const defaultChallenges = {
     reward: "🚶‍♀️ Walk Warrior Badge",
     exerciseType: "walking",
     imageUrl:
-      "https://images.unsplash.com/photo-1505236732316-920f94d52d71?auto=format&fit=crop&w=800&q=80",
+      "https://www.hindustantimes.com/ht-img/img/2025/05/30/1600x900/walking_1748599927905_1748599928268.jpg",
   },
 };
 
@@ -101,10 +108,15 @@ export const addDefaultChallenges = async () => {
 export const fetchAllChallenges = async () => {
   const challengesRef = ref(db, "challenges");
   const snapshot = await get(challengesRef);
-  return snapshot.exists() ? snapshot.val() : {};
+  if (snapshot.exists()) {
+    console.debug("fetchAllChallenges: found challenges", snapshot.val());
+    return snapshot.val();
+  } else {
+    console.debug("fetchAllChallenges: no challenges node found or empty");
+    return {};
+  }
 };
 
-//join a challenge
 export const joinChallenge = async (uid, challengeId) => {
   const userChallengeRef = ref(
     db,
@@ -117,16 +129,25 @@ export const joinChallenge = async (uid, challengeId) => {
   });
 };
 
-// Update progress of a joined challenge
-export const updateChallengeProgress = async (uid, challengeId, progress) => {
+export const updateChallengeProgress = async (
+  uid,
+  challengeId,
+  progress,
+  logs = null
+) => {
   const challengeRef = ref(db, `users/${uid}/joinedChallenges/${challengeId}`);
-  await update(challengeRef, {
+  const payload = {
     progress,
     updatedAt: new Date().toISOString(),
-  });
+  };
+
+  if (logs) {
+    payload.logs = logs;
+  }
+
+  await update(challengeRef, payload);
 };
 
-// Mark challenge as completed
 export const completeChallenge = async (uid, challengeId) => {
   const challengeRef = ref(db, `users/${uid}/joinedChallenges/${challengeId}`);
   await update(challengeRef, {
@@ -135,7 +156,6 @@ export const completeChallenge = async (uid, challengeId) => {
   });
 };
 
-// Fetch all challenges a user has joined
 export const fetchUserChallenges = async (uid) => {
   const userChallengesRef = ref(db, `users/${uid}/joinedChallenges`);
   const snapshot = await get(userChallengesRef);

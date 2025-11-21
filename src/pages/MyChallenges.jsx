@@ -66,7 +66,11 @@ const MyChallenges = () => {
 
   useEffect(() => {
     const load = async () => {
-      if (!user?.uid) return;
+      if (!user?.uid) {
+        // If there's no logged-in user, stop loading so the UI can show a helpful message.
+        setLoading(false);
+        return;
+      }
 
       const [userData, allData] = await Promise.all([
         fetchUserChallenges(user.uid),

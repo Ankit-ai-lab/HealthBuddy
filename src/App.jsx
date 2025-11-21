@@ -21,7 +21,18 @@ function App() {
   const dispatch = useDispatch();
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (firebaseUser) => {
-      dispatch(setUser(firebaseUser ?? null));
+      // Only store a serializable subset of the Firebase user in Redux
+      if (firebaseUser) {
+        const safeUser = {
+          uid: firebaseUser.uid,
+          email: firebaseUser.email || null,
+          displayName: firebaseUser.displayName || null,
+          photoURL: firebaseUser.photoURL || null,
+        };
+        dispatch(setUser(safeUser));
+      } else {
+        dispatch(setUser(null));
+      }
     });
     return () => unsubscribe();
   }, [dispatch]);
