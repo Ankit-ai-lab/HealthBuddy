@@ -11,17 +11,31 @@ const authSlice = createSlice({
   initialState,
   reducers: {
     setUser(state, action) {
-      state.user = action.payload;
+      const u = action.payload;
+
+      // store only serializable values
+      state.user = u
+        ? {
+            uid: u.uid,
+            email: u.email,
+            displayName: u.displayName || null,
+            photoURL: u.photoURL || null,
+          }
+        : null;
+
       state.loading = false;
       state.error = null;
     },
+
     setLoading(state) {
       state.loading = true;
     },
+
     setError(state, action) {
       state.error = action.payload;
       state.loading = false;
     },
+
     logout(state) {
       state.user = null;
       state.loading = false;

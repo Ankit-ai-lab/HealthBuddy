@@ -21,7 +21,19 @@ const AuthForm = ({ mode, switchMode, closeModal }) => {
     try {
       if (isLogin) {
         const userCredential = await loginUser(email, password);
-        dispatch(setUser(userCredential.user));
+
+        const u = userCredential.user; // Firebase user
+
+        // Only dispatch serializable data to Redux
+        dispatch(
+          setUser({
+            uid: u.uid,
+            email: u.email,
+            displayName: u.displayName || "",
+            photoURL: u.photoURL || "",
+          })
+        );
+
         toast.success("Login successful");
         closeModal();
       } else {
