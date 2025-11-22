@@ -65,24 +65,30 @@ const MyChallenges = () => {
   };
 
   useEffect(() => {
-    const load = async () => {
-      if (!user?.uid) {
-        // If there's no logged-in user, stop loading so the UI can show a helpful message.
-        setLoading(false);
-        return;
-      }
+  const load = async () => {
+    if (!user?.uid) {
+      setLoading(false);
+      return;
+    }
 
+    try {
+      setLoading(true);
       const [userData, allData] = await Promise.all([
         fetchUserChallenges(user.uid),
         fetchAllChallenges(),
       ]);
       setUserChallenges(userData || {});
       setAllChallenges(allData || {});
+    } catch (error) {
+      console.error("Error loading challenges:", error);
+      toast.error("Failed to load your challenges");
+    } finally {
       setLoading(false);
-    };
+    }
+  };
 
-    load();
-  }, [user]);
+  load();
+}, [user]);
 
   const getRemainingDays = (joinedAt, durationDays) => {
     const joinedDate = new Date(joinedAt);
