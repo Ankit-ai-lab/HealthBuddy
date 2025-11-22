@@ -186,7 +186,7 @@ const ChatWindow = () => {
                 <p className="font-semibold text-sm mb-1">
                   {msg.senderId === currentUser.uid
                     ? "You"
-                    : otherUser.username || "Buddy"}
+                    : msg.senderUsername || otherUser.username || "Buddy"}
                 </p>
                 <p>{msg.text}</p>
                 <p className="text-xs text-right opacity-75 mt-1">
