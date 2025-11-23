@@ -2,7 +2,7 @@ import React from "react";
 import phoneImage from "../assets/hero-phone-large.webp";
 import Rating from "../components/Rating";
 import Banner from "../components/Banner";
-import Four from "../components/four";
+import Four from "../components/Four";
 
 const Home = () => {
   return (
