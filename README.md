@@ -22,7 +22,8 @@
 
 | Home                            | Challenges                                  | Profile Matching                      | Recomendation                                     |
 | ------------------------------- | ------------------------------------------- | ------------------------------------- | ------------------------------------------------- |
-| ![Home](./screenshots/home.png) | ![Challenges](./screenshots/challenges.png) | ![Profile](./screenshots/profile.png) | ![Recomendation](./screenshots/recomendation.png) |
+| ![Home](<img width="1918" height="928" alt="image" src="https://github.com/user-attachments/assets/368e9a92-d7ee-45ef-9338-1731c28b0905" />
+) | ![Challenges](./screenshots/challenges.png) | ![Profile](./screenshots/profile.png) | ![Recomendation](./screenshots/recomendation.png) |
 
 ---
 
