@@ -136,7 +136,7 @@ const Navbar = () => {
         <img
           src={theme === "dark" ? "/lightlogo.png" : "/darklogo.png"}
           alt="FitnessBuddy Logo"
-          className="h-10 w-auto object-contain transition duration-300 hidden lg:block cursor-pointer"
+          className="max-h-[52px] w-auto object-contain hidden lg:block cursor-pointer"
           onClick={() => navigate("/")}
         />
 

@@ -48,7 +48,7 @@ const BuddyMatcher = () => {
     }
   };
 
-  //!Matching Algorithm (remains the same)
+/*    !Matching Algorithm (remains the same) */
   const calculateMatches = (currentUserId, allUsersData) => {
     const currentProfile = allUsersData[currentUserId];
     if (!currentProfile) return [];
@@ -216,6 +216,7 @@ const BuddyMatcher = () => {
             key={buddy.uid}
             className="flex flex-col items-center space-y-4 p-4 bg-gray-50 dark:bg-gray-700 rounded-lg shadow-sm
                        sm:flex-row sm:items-center sm:space-x-4 sm:space-y-0"
+                       
           >
             {buddy.photoURL ? (
               <img
